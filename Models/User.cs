@@ -14,5 +14,10 @@ namespace MVCAPP.Models
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public string Salt { get; set; }
+        [Required]
+        public int RoleId { get; set; } = 3;
+        public Role Role { get; set; }
     }
 }

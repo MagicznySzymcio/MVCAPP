@@ -8,7 +8,8 @@ namespace MVCAPP.Data
     public class CookieUser
     {
         public int Id { get; set; }
-        public String Username { get; set; }
+        public string Username { get; set; }
+        public string Role { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
     }
 }

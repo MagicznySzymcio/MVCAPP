@@ -79,7 +79,7 @@ namespace MVCAPP
                 endpoints.MapControllerRoute(
                     name: "default",
                     // pattern: "{controller=Home}/{action=Index}/{id?}");
-                    pattern: "{controller=Account}/{action=Login}");
+                    pattern: "{controller=Account}/{action=Login}/{message?}");
             });
         }
     }

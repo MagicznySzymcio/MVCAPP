@@ -28,7 +28,7 @@ namespace MVCAPP
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseUrls("https://0.0.0.0:5001");
-                webBuilder.UseKestrel();
+                // webBuilder.UseKestrel();                                         // do kestrel
                 webBuilder.UseStartup<Startup>();
             });
 

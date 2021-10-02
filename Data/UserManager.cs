@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCAPP.Models;
 
 namespace MVCAPP.Data
 {
     public interface IUserManager
     {
-        // CookieUser Register(RegisterVm model);
-        // CookieUser Validate(LoginViewModel model);
         List<User> Get();
         CookieUser Validate(LoginViewModel model);
         Task Login(HttpContext httpContext, CookieUser cookie, bool isPersistent);
@@ -37,11 +36,14 @@ namespace MVCAPP.Data
         }
         public CookieUser Validate(LoginViewModel model)
         {
-            var result = _db.Users.Where(x => x.Username == model.Username && x.Password == model.Password)
+            var userList = _db.Users.Include(x => x.Role).Where(x => x.Username == model.Username).AsEnumerable();
+
+            var result = userList.Where(x => x.Password == Hasher.GenerateHash(model.Password, x.Salt))
                 .Select(x => new CookieUser
                 {
                     Id = x.Id,
-                    Username = x.Username
+                    Username = x.Username,
+                    Role = x.Role.Type
                 });
 
             return result.FirstOrDefault();
@@ -78,6 +80,7 @@ namespace MVCAPP.Data
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, cookie.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, cookie.Username));
+            claims.Add(new Claim(ClaimTypes.Role, cookie.Role));
             return claims;
         }
     }

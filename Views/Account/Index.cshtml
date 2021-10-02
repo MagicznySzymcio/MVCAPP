@@ -1,0 +1,64 @@
+﻿@model CredentialsViewModel
+@{
+    ViewData["Title"] = Model.Username;
+}
+
+<table class="table">
+    <tr>
+        <th scope="row">Name</th>
+        <td>@Model.Username</td>
+    </tr>
+    <tr>
+        <th scope="row">Role</th>
+        <td>@Model.Role.Type</td>
+    </tr>
+    <tr>
+        <th scope="row">Change Credentials</th>
+        <td><button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Change</button></td>
+    </tr>
+    <tr>
+        <th scope="row">Delete Account</th>
+        <td><button class="btn btn-danger">Delete</button></td>
+    </tr>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Credentials</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="ChangeCredentials">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Username" class="control-label"></label>
+                        <input asp-for="Username" class="form-control" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" type="password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ComfirmPassword" class="control-label"></label>
+                        <input asp-for="ComfirmPassword" type="password" class="form-control" />
+                        <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    }) 
+</script>
